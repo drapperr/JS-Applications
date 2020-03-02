@@ -6,7 +6,7 @@ function solve() {
                 if (typeof temp[key] === 'function') {
                     this.__proto__[key] =  temp[key];
                 } else {
-                    myObj[key] = temp[key];
+                    this[key] = temp[key];
                 }
             })
         }
