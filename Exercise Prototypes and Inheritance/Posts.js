@@ -50,28 +50,9 @@ function solve(){
             return super.toString()+`\nViews: ${this.views}`;   
         }
     } 
-
-    let post = new Post("Post", "Content");
-
-    console.log(post.toString());
-    
-    // Post: Post
-    // Content: Content
-    
-    let scm = new SocialMediaPost("TestTitle", "TestContent", 25, 30);
-    
-    scm.addComment("Good post");
-    scm.addComment("Very good post");
-    scm.addComment("Wow!");
-    
-    console.log(scm.toString());
-    
-
     return{
         Post,
         SocialMediaPost,
         BlogPost
     }
 }
-
-solve()
