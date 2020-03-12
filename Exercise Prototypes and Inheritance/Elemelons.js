@@ -55,8 +55,6 @@ function solve() {
             this.element=currentElement;
         }
     }
-    let test = new Melolemonmelon(150, "Melo");
-    console.log(test.toString())
     return{
         Melon,
         Watermelon,
@@ -66,5 +64,3 @@ function solve() {
         Melolemonmelon
     }
 }
-
-solve()
