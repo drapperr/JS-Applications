@@ -17,6 +17,10 @@ function attachEvents() {
         fetch('https://fisher-game.firebaseio.com/catches.json')
             .then(x => x.json())
             .then(x => {
+                if (!x) {
+                    alert('Data is Empty!');
+                    return;
+                }
                 Object.entries(x).forEach(([id, c]) => {
                     let newCatch = generateNewCatch(c.angler, c.weight, c.species, c.location, c.bait, c.captureTime);
                     addCatch(id, newCatch);
