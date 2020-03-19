@@ -18,14 +18,14 @@ function attachEvents() {
             .then(x => x.json())
             .then(x => {
                 if (!x) {
-                    alert('Data is Empty!');
-                    return;
+                    throw new Error('Data is Empty!');
                 }
                 Object.entries(x).forEach(([id, c]) => {
                     let newCatch = generateNewCatch(c.angler, c.weight, c.species, c.location, c.bait, c.captureTime);
                     addCatch(id, newCatch);
                 });
             })
+            .catch(alert)
     }
 
     async function addData() {
