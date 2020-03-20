@@ -1,5 +1,5 @@
 const loadBtn = document.querySelector('#loadBooks');
-const booksUrl = 'https://mybooks-69.firebaseio.com/books/';
+const booksUrl = 'https://softuni-myexercises.firebaseio.com/books/';
 const tbodyRef = document.querySelector('tbody');
 const submitBtn = document.querySelector('form button');
 const titleRef = document.querySelector('#title');
@@ -17,6 +17,7 @@ function submitBook(e) {
         body: JSON.stringify(newBook)
     })
     addBook(newBook);
+    clear();
 }
 
 function loadBooks() {
@@ -60,9 +61,28 @@ function editBook() {
     titleRef.value = currentBook.children[0].textContent;
     authorRef.value = currentBook.children[1].textContent;
     isbnRef.value = currentBook.children[2].textContent;
-    submitBtn.style.display='none'//TODO
-    
+
+    submitBtn.removeEventListener('click', submitBook);
+    submitBtn.addEventListener('click', putBook);
+
+    function putBook(e) {
+        e.preventDefault();
+        let editedBook = createBook(titleRef.value, authorRef.value, isbnRef.value);
+
+        fetch(booksUrl + currentBook.id + '.json', {
+            method: 'PUT',
+            body: JSON.stringify(editedBook)
+        });
+        currentBook.children[0].textContent = editedBook.title;
+        currentBook.children[1].textContent = editedBook.author;
+        currentBook.children[2].textContent = editedBook.isbn;
+        submitBtn.removeEventListener('click', putBook);
+        submitBtn.addEventListener('click', submitBook);
+        clear();
+    }
 }
+
+
 
 function deleteBoook() {
     let id = this.parentNode.parentNode.id;
@@ -79,6 +99,7 @@ function createBook(title, author, isbn) {
         isbn
     }
 }
+
 function createNewElement(name, content) {
     let newElement = document.createElement(name);
 
@@ -86,4 +107,10 @@ function createNewElement(name, content) {
         newElement.textContent = content;
     }
     return newElement;
+}
+
+function clear() {
+    titleRef.value = '';
+    authorRef.value = '';
+    isbnRef.value = '';
 }
