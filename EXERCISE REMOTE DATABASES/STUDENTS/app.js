@@ -8,8 +8,9 @@ const gradeRef = document.querySelector('#grade');
 
 addBtn.addEventListener('click', addStudent);
 
-function submitBook(e) {
+function addStudent(e) {
     e.preventDefault();
+    
     let newBook = createBook(titleRef.value, authorRef.value, isbnRef.value);
     fetch(booksUrl + '.json', {
         method: 'POST',
