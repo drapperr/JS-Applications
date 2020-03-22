@@ -29,8 +29,7 @@ function loadBooks() {
                 throw new Error('Books is Empty');
             }
             Object.entries(x).forEach(([id, book]) => {
-                let newBook = createBook(book.title, book.author, book.isbn);
-                addBook(newBook, id);
+                addBook(book, id);
             })
         })
         .catch(console.log)
