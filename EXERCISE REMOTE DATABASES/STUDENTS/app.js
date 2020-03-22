@@ -6,97 +6,65 @@ const lastNameRef = document.querySelector('#lastName');
 const facultyNumberRef = document.querySelector('#facultyNumber');
 const gradeRef = document.querySelector('#grade');
 
+loadStudents();
 addBtn.addEventListener('click', addStudent);
 
-function addStudent(e) {
+async function addStudent(e) {
     e.preventDefault();
-    
-    let newBook = createBook(titleRef.value, authorRef.value, isbnRef.value);
-    fetch(booksUrl + '.json', {
-        method: 'POST',
-        body: JSON.stringify(newBook)
+
+    let newStudent = createNewStudent(firstNameRef.value, lastNameRef.value, facultyNumberRef.value, gradeRef.value);
+    let id = await getNewId();
+
+    await fetch(studentUrl + id + '.json', {
+        method: 'PUT',
+        body: JSON.stringify(newStudent)
     })
-    addBook(newBook);
+
+    loadStudents();
     clear();
 }
 
-function loadBooks() {
+async function getNewId() {
+    let response = await fetch(studentUrl + '.json');
+    let result = await response.json();
+    return Number(Object.keys(result).slice(-1)[0]) + 1;
+}
+
+function loadStudents() {
     tbodyRef.innerHTML = '';
-    fetch(booksUrl + '.json')
-        .then(x => x.json())
-        .then(x => {
-            if (!x) {
-                throw new Error('Books is Empty');
+    fetch(studentUrl + '.json')
+        .then(rsponse => rsponse.json())
+        .then(students => {
+            if (!students) {
+                throw new Error('Student list is Empty');
             }
-            Object.entries(x).forEach(([id, book]) => {
-                let newBook = createBook(book.title, book.author, book.isbn);
-                addBook(newBook, id);
+            Object.keys(students).sort((a,b)=> Number(a)-Number(b)).forEach((id) => {
+                if (students[id]) {
+                    let newStudent = createNewStudent(students[id].firstName,students[id].lastName,students[id].facultyNumber,students[id].grade);
+                    addStudentToList(newStudent, id);
+                }
             })
         })
         .catch(console.log)
 }
 
-function addBook(book, id) {
+function addStudentToList(student, id) {
     let newTr = createNewElement('tr');
-    newTr.id = id;
-    newTr.appendChild(createNewElement('td', book.title));
-    newTr.appendChild(createNewElement('td', book.author));
-    newTr.appendChild(createNewElement('td', book.isbn));
+    newTr.appendChild(createNewElement('td', id));
+    newTr.appendChild(createNewElement('td', student.firstName));
+    newTr.appendChild(createNewElement('td', student.lastName));
+    newTr.appendChild(createNewElement('td', student.facultyNumber));
+    newTr.appendChild(createNewElement('td', student.grade));
 
-    let newTd = createNewElement('td');
-    let editBtn = createNewElement('button', 'Edit');
-    editBtn.addEventListener('click', editBook);
-    let deleteBtn = createNewElement('button', 'Delete');
-    deleteBtn.addEventListener('click', deleteBoook);
-
-    newTd.appendChild(editBtn);
-    newTd.appendChild(deleteBtn);
-
-    newTr.appendChild(newTd);
     tbodyRef.appendChild(newTr);
 }
 
-function editBook() {
-    let currentBook = this.parentNode.parentNode
-    titleRef.value = currentBook.children[0].textContent;
-    authorRef.value = currentBook.children[1].textContent;
-    isbnRef.value = currentBook.children[2].textContent;
-
-    submitBtn.removeEventListener('click', submitBook);
-    submitBtn.addEventListener('click', putBook);
-
-    function putBook(e) {
-        e.preventDefault();
-        let editedBook = createBook(titleRef.value, authorRef.value, isbnRef.value);
-
-        fetch(booksUrl + currentBook.id + '.json', {
-            method: 'PUT',
-            body: JSON.stringify(editedBook)
-        });
-        currentBook.children[0].textContent = editedBook.title;
-        currentBook.children[1].textContent = editedBook.author;
-        currentBook.children[2].textContent = editedBook.isbn;
-        submitBtn.removeEventListener('click', putBook);
-        submitBtn.addEventListener('click', submitBook);
-        clear();
-    }
-}
-
-
-
-function deleteBoook() {
-    let id = this.parentNode.parentNode.id;
-    fetch(booksUrl + id + '.json', {
-        method: 'Delete',
-    })
-    this.parentNode.parentNode.remove();
-}
-
-function createBook(title, author, isbn) {
+function createNewStudent(firstName, lastName, facultyNumber, grade) {
     return {
-        title,
-        author,
-        isbn
+        firstName,
+        lastName,
+        facultyNumber,
+        grade
     }
 }
 
@@ -110,7 +78,8 @@ function createNewElement(name, content) {
 }
 
 function clear() {
-    titleRef.value = '';
-    authorRef.value = '';
-    isbnRef.value = '';
+    firstNameRef.value = '';
+    lastNameRef.value = '';
+    facultyNumberRef.value = '';
+    gradeRef.value = '';
 }
