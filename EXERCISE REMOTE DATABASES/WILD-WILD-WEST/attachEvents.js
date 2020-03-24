@@ -10,7 +10,7 @@ function attachEvents() {
     const reloadBtn = document.querySelector('#reload');
     const canvas = document.querySelector('canvas');
 
-    loadAllPlayers()
+    loadAllPlayers();
 
     addPlayerBtn.addEventListener('click', addPlayer);
 
