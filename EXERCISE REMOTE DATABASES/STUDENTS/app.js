@@ -27,6 +27,7 @@ async function addStudent(e) {
 async function getNewId() {
     let response = await fetch(studentUrl + '.json');
     let result = await response.json();
+
     return Number(Object.keys(result).slice(-1)[0]) + 1;
 }
 
@@ -74,6 +75,7 @@ function createNewElement(name, content) {
     if (content) {
         newElement.textContent = content;
     }
+    
     return newElement;
 }
 
