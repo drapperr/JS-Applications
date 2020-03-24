@@ -81,8 +81,6 @@ function editBook() {
     }
 }
 
-
-
 function deleteBoook() {
     let id = this.parentNode.parentNode.id;
     fetch(booksUrl + id + '.json', {
