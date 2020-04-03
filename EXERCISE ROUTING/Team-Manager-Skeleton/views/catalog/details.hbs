@@ -1,0 +1,34 @@
+<div class="container">
+    {{> header}}
+    <div class="details-box">
+        <span class="titlebar">{{name}} details</span>
+        <span class="spanner">Team members</span>
+        <div>
+            {{#each members}}
+            <div class="member">{{this}}</div>
+            {{else}}
+            <p>No member info</p>
+            {{/each}}
+        </div>
+        <span class="spanner">Description</span>
+        {{#if comment}}
+        <p>{{comment}}</p>
+        {{else}}
+        <p>No description</p>
+        {{/if}}
+        <span class="spanner">Team management</span>
+        {{#if isAuthor}}
+        <a href="#/edit/{{id}}" class="btn btn-default">Edit Info</a>
+        <a href="#/delete/{{id}}" class="btn btn-default">Delete</a>
+        {{else}}
+        {{#if isOnTeam}}
+        <a href="#/leave/{{id}}" class="btn btn-default">Leave Team</a>
+        {{else}}
+        <a href="#/join/{{id}}" class="btn btn-default">Join Team</a>
+        {{/if}}
+        {{/if}}
+
+    </div>
+</div>
+
+{{> footer}}
