@@ -1,0 +1,22 @@
+{{>header}}
+
+<section class="my-pets">
+    <h1>My Pets</h1>
+    <ul class="my-pets-list">
+        {{#each myPets}}
+        <section class="myPet">
+            <h3>Name: {{name}}</h3>
+            <p>Category: {{category}}</p>
+            <p class="img"><img src="{{imageURL}}"></p>
+            <p class="description">{{description}}</p>
+            <div class="pet-info">
+                <a href="#/pet/details/{{id}}"><button class="button">Details</button></a>
+                <a href="#/pet/delete/{{id}}"><button class="button">Delete</button></a>
+                <i class="fas fa-heart"></i> <span>{{hearts}}</span>
+            </div>
+        </section>
+        {{/each}}
+    </ul>
+</section>
+
+{{>footer}}
