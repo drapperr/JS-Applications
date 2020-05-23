@@ -1,0 +1,50 @@
+<div id="notifications">
+    <div id="loadingBox" class="notification">
+        <span>Loading …</span>
+    </div>
+    <div id="infoBox" class="notification">
+        <span>Info</span>
+    </div>
+    <div id="errorBox" class="notification">
+        <span>Error</span>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#/home">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#/songs/allsongs">All Songs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="#/songs/mysongs">My Songs</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav justify-content-end">
+            {{#if isLoggedIn}}
+            <li class="nav-item">
+                <a class="nav-link" href="#">Welcome, {{username}}!</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#/user/logout">Logout</a>
+            </li>
+            {{/if}}
+        </ul>
+        <ul class="navbar-nav mr-auto">
+        </ul>
+        <ul class="navbar-nav justify-content-end">
+            {{#if isLoggedIn}}
+            {{else}}
+            <li class="nav-item">
+                <a class="nav-link" href="#/user/login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#/user/register">Register</a>
+            </li>
+            {{/if}}
+        </ul>
+    </div>
+</nav>
